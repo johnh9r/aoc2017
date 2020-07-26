@@ -109,3 +109,72 @@ def calc_manhattan_distance(target_square_index)
   # Manhattan distance
   x.abs + y.abs
 end
+
+
+#
+# part 2
+#
+
+def calc_spiral_memory_contents(threshold)
+  mem = {[0,0] => 1}
+  # having seeded central cell, start next ring
+  x = 1
+  y = 0
+  val = -1
+
+  while (val < threshold) do
+    val = sum_adjacent_cells(mem, x, y)
+    mem.store([x,y], val)
+
+    case
+    when (x > 0) && (x > y.abs)
+      # rising edge (moving up)
+      y += 1
+      # putc '^'; puts val
+    when (x > 0) && (x == y)
+      # top-right corner
+      x -= 1
+      # putc '<'; puts val
+    when (y > 0) && (x.abs < y)
+      # top edge, moving leftwards
+      x -= 1
+      # putc '<'; puts val
+    when (y > 0) && (-1 * x == y)
+      # top-left corner
+      y -= 1
+      # putc 'v'; puts val
+    when (x < 0) && (x < y)
+      # left edge, moving downwards
+      y -= 1
+      # putc 'v'; puts val
+    when (x < 0) && (x == y)
+      # bottom-left corner
+      x += 1
+      # putc '>'; puts val
+    when (y < 0) && (x < y.abs)
+      # bottom edge, moving rightwards
+      x += 1
+      # putc '>'; puts val
+    when (y < 0) && (x == -1 * y)
+      # move right off bottom-right diagonal to start final incomplete ring
+      x += 1
+      # putc '>'; puts val
+    end
+  end
+
+  val
+end
+
+def sum_adjacent_cells(mem, x, y)
+  # corners (TL+TR+BL+BR)
+  mem.fetch([x-1, y+1], 0) +
+  mem.fetch([x+1, y+1], 0) +
+  mem.fetch([x-1, y-1], 0) +
+  mem.fetch([x+1, y-1], 0) +
+  # horizontal sides (L, R)
+  mem.fetch([x-1, y], 0) +
+  mem.fetch([x+1, y], 0) +
+  # vertical sides (T, B)
+  mem.fetch([x, y+1], 0) +
+  mem.fetch([x, y-1], 0)
+end

@@ -21,3 +21,9 @@ describe 'part 1' do
     expect(calc_manhattan_distance(ex.metadata[:input])).to equal(ex.metadata[:output])
   end
 end
+
+describe 'part 2' do
+  it 'calculates spiral memory cell contents with sliding window', input: 312_051, output: 312_453 do |ex|
+    expect(calc_spiral_memory_contents(ex.metadata[:input])).to equal(ex.metadata[:output])
+  end
+end
