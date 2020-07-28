@@ -11,6 +11,7 @@ def count_valid_passphrases(input)
       _, count =
         phrase.split.reduce([Set.new, 1]) do |acc, p|
           set, valid = acc
+          p = yield p if block_given?
           if set.include?(p)
             [set, 0]
           else
