@@ -6,7 +6,7 @@ def count_jumps_to_exit(input)
 
   while ((0 <= idx) && (idx < all_values.length)) do
     offset = all_values[idx]
-    all_values[idx] += 1
+    all_values[idx] += yield offset
     idx += offset
     count += 1
   end
